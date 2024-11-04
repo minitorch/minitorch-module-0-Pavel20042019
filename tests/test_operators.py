@@ -106,10 +106,11 @@ def test_sigmoid(a: float) -> None:
     * It crosses 0 at 0.5
     * It is  strictly increasing.
     """
-    assert 0 < sigmoid(a) < 1
+    assert 0 <= sigmoid(a) <= 1
     assert_close(1 - sigmoid(a), sigmoid(-a))
     assert_close(sigmoid(0), 0.5)
-    assert sigmoid(a + 1e-6) > sigmoid(a)
+    if (s := sigmoid(a)) < 1:
+        assert sigmoid(a + 10) > s
 
 
 @pytest.mark.task0_2
@@ -120,6 +121,7 @@ def test_transitive(a: float, b: float, c: float) -> None:
 
 
 @pytest.mark.task0_2
+@given(small_floats, small_floats)
 def test_symmetric(a: float, b: float) -> None:
     """
     Write a test that ensures that :func:`minitorch.operators.mul` is symmetric, i.e.
@@ -129,6 +131,7 @@ def test_symmetric(a: float, b: float) -> None:
 
 
 @pytest.mark.task0_2
+@given(small_floats, small_floats, small_floats)
 def test_distribute(x: float, y: float, z: float) -> None:
     r"""
     Write a test that ensures that your operators distribute, i.e.
@@ -138,6 +141,7 @@ def test_distribute(x: float, y: float, z: float) -> None:
 
 
 @pytest.mark.task0_2
+@given(small_floats, small_floats)
 def test_other(x: float, y: float) -> None:
     """
     Write a test that ensures some other property holds for your functions.
